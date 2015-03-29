@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_tailorsdesk" default="compile.module.tailorsdesk">
+  <dirname property="module.tailorsdesk.basedir" file="${ant.file.module_tailorsdesk}"/>
+  
+  <property name="module.jdk.home.tailorsdesk" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.tailorsdesk" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.tailorsdesk" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.tailorsdesk" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
+  
+  <property name="tailorsdesk.output.dir" value="${module.tailorsdesk.basedir}/out/production/TailorsDesk"/>
+  <property name="tailorsdesk.testoutput.dir" value="${module.tailorsdesk.basedir}/out/test/TailorsDesk"/>
+  
+  <path id="tailorsdesk.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="tailorsdesk.module.production.classpath">
+    <path refid="${module.jdk.classpath.tailorsdesk}"/>
+  </path>
+  
+  <path id="tailorsdesk.runtime.production.module.classpath">
+    <pathelement location="${tailorsdesk.output.dir}"/>
+  </path>
+  
+  <path id="tailorsdesk.module.classpath">
+    <path refid="${module.jdk.classpath.tailorsdesk}"/>
+    <pathelement location="${tailorsdesk.output.dir}"/>
+  </path>
+  
+  <path id="tailorsdesk.runtime.module.classpath">
+    <pathelement location="${tailorsdesk.testoutput.dir}"/>
+    <pathelement location="${tailorsdesk.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.tailorsdesk">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.tailorsdesk">
+    <patternset refid="excluded.from.module.tailorsdesk"/>
+  </patternset>
+  
+  <path id="tailorsdesk.module.sourcepath">
+    <dirset dir="${module.tailorsdesk.basedir}">
+      <include name="src"/>
+      <include name="gen"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.tailorsdesk" depends="compile.module.tailorsdesk.production,compile.module.tailorsdesk.tests" description="Compile module TailorsDesk"/>
+  
+  <target name="compile.module.tailorsdesk.production" depends="register.custom.compilers" description="Compile module TailorsDesk; production classes">
+    <mkdir dir="${tailorsdesk.output.dir}"/>
+    <javac2 destdir="${tailorsdesk.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.tailorsdesk}/javac">
+      <compilerarg line="${compiler.args.tailorsdesk}"/>
+      <bootclasspath refid="tailorsdesk.module.bootclasspath"/>
+      <classpath refid="tailorsdesk.module.production.classpath"/>
+      <src refid="tailorsdesk.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.tailorsdesk"/>
+    </javac2>
+    
+    <copy todir="${tailorsdesk.output.dir}">
+      <fileset dir="${module.tailorsdesk.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.tailorsdesk.basedir}/gen">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.tailorsdesk.tests" depends="register.custom.compilers,compile.module.tailorsdesk.production" description="compile module TailorsDesk; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.tailorsdesk" description="cleanup module">
+    <delete dir="${tailorsdesk.output.dir}"/>
+    <delete dir="${tailorsdesk.testoutput.dir}"/>
+  </target>
+</project>

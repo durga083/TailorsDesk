@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Custom Style defined for the text. -->
+    <style name="CustomEditTextStyle">
+        <item name="android:textSize" >6pt</item>
+    </style>
+
+    <style name="CustomTextViewStyle">
+        <item name="android:textColor">#e6072645</item>
+        <item name="android:textSize" >6pt</item>
+    </style>
+
+    <style name="CustomBackgroundColour">
+        <item name="android:background">#FFFFFF</item>/>
+    </style>
+
+    <style name="CustomSubHeadingTextViewStyle">
+        <item name="android:textColor">#fff400</item>
+        <item name="android:textSize" >7pt</item>
+    </style>
+
+    <!-- Custom Style defined for the buttons. -->
+    <style name="CustomButtonStyle">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">38dp</item>
+        <item name="android:textColor">#fff400</item>
+    </style>
+</resources>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/popup_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_weight="0.5"
+            android:scrollbarAlwaysDrawVerticalTrack="true">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:id="@+id/info"
+              style="@style/CustomBackgroundColour"
+        >
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DETAILS VIEW" android:textAlignment="center" style="@style/CustomSubHeadingTextViewStyle"
+            android:layout_span="1" android:gravity="center" android:layout_gravity="left"/>
+
+                <TextView android:id="@+id/responseTextVal"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content" android:padding="5dp" android:background="@android:color/holo_purple"
+                          android:text="" android:visibility="gone"
+                          android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:gravity="center_horizontal" android:background="#b0b0b0">
+
+        <ImageView android:id="@+id/imgView" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1"></ImageView>
+
+        <EditText
+                android:id="@+id/imageVal" android:visibility="gone"
+                android:layout_gravity="top" android:layout_weight="1" android:layout_width="0dp"/>
+
+    </TableRow>
+
+</LinearLayout>
+</ScrollView>
+
