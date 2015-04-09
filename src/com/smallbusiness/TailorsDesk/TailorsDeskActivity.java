@@ -7,19 +7,19 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.*;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.view.View.OnClickListener;
 
 import java.io.*;
 import java.util.Calendar;
-import com.smallbusiness.TailorsDesk.R;
 
 /* @Author: T. Durga Kumari
 * This class is for first activity where user will be providing input and
@@ -27,39 +27,82 @@ import com.smallbusiness.TailorsDesk.R;
  */
 public class TailorsDeskActivity extends Activity implements OnItemSelectedListener, OnClickListener {
 
+    static final int DATE_DIALOG_ID = 999;
+    static final int DELIVERY_DATE_DIALOG_ID = 99;
+    private static int RESULT_LOAD_IMAGE = 1;
         Spinner stitchStyleSpinner;
-        private String[] stitchStyles = { "Salwar", "Kurta", "Gown" };
         EditText customerNameVal;
         EditText phoneNumberVal;
         EditText saveDataVal;
     TextView stitchStyleVal;
     TextView responseTextVal;
-    private static int RESULT_LOAD_IMAGE = 1;
-
     EditText itemCountVal;
     EditText commentsVal;
     EditText lengthVal;
     EditText shoulderVal;
     EditText imageVal;
-
     File internalFile = null;
-
-
+    private String[] stitchStyles = {"Salwar", "Kurta", "Gown"};
     private TextView tvDisplayDate;
     private DatePicker dpResult;
     private Button btnChangeDate;
-
     private TextView tvDisplayDeliveryDate;
     private DatePicker dpDeliveryResult;
     private Button btnChangeDeliveryDate;
-
     private int year;
     private int month;
     private int day;
+    private DatePickerDialog.OnDateSetListener datePickerListener
+            = new DatePickerDialog.OnDateSetListener() {
 
-    static final int DATE_DIALOG_ID = 999;
+        public void onDateSet(DatePicker view, int selectedYear,
+                              int selectedMonth, int selectedDay) {
+            year = selectedYear;
+            month = selectedMonth;
+            day = selectedDay;
 
-    static final int DELIVERY_DATE_DIALOG_ID = 99;
+            tvDisplayDate.setText(new StringBuilder().append(month + 1)
+                    .append("-").append(day).append("-").append(year)
+                    .append(" "));
+
+            dpResult.init(year, month, day, null);
+
+            dpResult.setVisibility(View.GONE);
+
+        }
+    };
+    private DatePickerDialog.OnDateSetListener deliveryDatePickerListener
+            = new DatePickerDialog.OnDateSetListener() {
+
+        public void onDateSet(DatePicker view, int selectedYear,
+                              int selectedMonth, int selectedDay) {
+            year = selectedYear;
+            month = selectedMonth;
+            day = selectedDay;
+
+            tvDisplayDeliveryDate.setText(new StringBuilder().append(month + 1)
+                    .append("-").append(day).append("-").append(year)
+                    .append(" "));
+
+            dpDeliveryResult.init(year, month, day, null);
+
+            dpDeliveryResult.setVisibility(View.GONE);
+
+        }
+    };
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        return dir.delete();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +112,6 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
         setCurrentDateOnView();
         addListenerOnButton();
 
-        internalFile = new File(getFilesDir(), getFileName());
         customerNameVal = (EditText) findViewById(R.id.customerNameVal);
         phoneNumberVal = (EditText) findViewById(R.id.phoneNumberVal);
         stitchStyleVal = (TextView) findViewById(R.id.stitchStyleVal);
@@ -116,6 +158,10 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
                 (Button) findViewById(R.id.getInternalStorage);
         readFromInternalStorage.setOnClickListener(this);
 
+        Button listFiles =
+                (Button) findViewById(R.id.listFiles);
+        listFiles.setOnClickListener(this);
+
 
         stitchStyleSpinner = (Spinner) findViewById(R.id.stitchStyleValSpinner);
         ArrayAdapter<String> adapter_state = new ArrayAdapter<String>(this,
@@ -126,7 +172,6 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
         stitchStyleSpinner.setOnItemSelectedListener(this);
     }
 
-
     public void onItemSelected(AdapterView<?> parent, View view, int position,
                                long id) {
         stitchStyleSpinner.setSelection(position);
@@ -135,11 +180,18 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
     }
 
     private String getFileName(){
-        int i = 0;
-        if(fileList() != null){
-             i = fileList().length;
+        String filename = "";
+        if (customerNameVal.getText() != null) {
+            String str = customerNameVal.getText().toString();
+            System.out.println("str:::" + str);
+            int i = 0;
+            if (fileList() != null) {
+                i = fileList().length;
+            }
+            filename = "TD_" + str + "_" + i;
         }
-        String filename = "TD"+i;
+
+
         return filename;
     }
 
@@ -166,55 +218,67 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
 
         switch (v.getId()) {
             case R.id.saveInternalStorage:
-                try {
-                    FileOutputStream fos = new FileOutputStream(internalFile);
-                    fos.write(saveDataVal.getText().toString().getBytes());
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                saveDataVal.setText("");
 
-                AlertDialog ad = new AlertDialog.Builder(this).create();
-                ad.setCancelable(false); // This blocks the 'BACK' button
-                ad.setMessage("Saved Successfully!");
-                ad.setButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                String str = customerNameVal.getText().toString();
+
+                if (str.equalsIgnoreCase("")) {
+                    customerNameVal.setError("please enter username");
+                } else {
+                    internalFile = new File(getFilesDir(), getFileName());
+                    try {
+                        FileOutputStream fos = new FileOutputStream(internalFile);
+                        fos.write(saveDataVal.getText().toString().getBytes());
+                        fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                });
-                ad.show();
+                    saveDataVal.setText("");
 
+                    AlertDialog ad = new AlertDialog.Builder(this).create();
+                    ad.setCancelable(false); // This blocks the 'BACK' button
+                    ad.setMessage("Saved Successfully!");
+                    ad.setButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    ad.show();
+                }
                 break;
 
             case R.id.getInternalStorage:
-                try {
-                    FileInputStream fis = new FileInputStream(internalFile);
-                    DataInputStream in = new DataInputStream(fis);
-                    BufferedReader br =
-                            new BufferedReader(new InputStreamReader(in));
-                    String strLine;
-                    while ((strLine = br.readLine()) != null) {
-                        myData = myData + strLine;
+                System.out.println("getFileName:::" + getFileName());
+                if (internalFile != null) {
+                    try {
+                        FileInputStream fis = new FileInputStream(internalFile);
+                        DataInputStream in = new DataInputStream(fis);
+                        BufferedReader br =
+                                new BufferedReader(new InputStreamReader(in));
+                        String strLine;
+                        while ((strLine = br.readLine()) != null) {
+                            myData = myData + strLine;
+                        }
+                        in.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    saveDataVal.setText(myData);
+
+                    responseTextVal
+                            .setText(myData);
+                    responseTextVal.setVisibility(View.GONE);
+
+                    Intent intent = new Intent(getApplicationContext(), TailorsDeskDisplayActivity.class);
+                    intent.putExtra("displayText", myData);
+                    Bundle extras = new Bundle();
+                    extras.putString("status", "VIEW!");
+                    extras.putString("imageURL", imageVal.getText().toString());
+                    intent.putExtras(extras);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(TailorsDeskActivity.this, "Please save data", Toast.LENGTH_LONG).show();
                 }
-                saveDataVal.setText(myData);
-
-                responseTextVal
-                        .setText(myData);
-                responseTextVal.setVisibility(View.GONE);
-
-                Intent intent = new Intent(getApplicationContext(), TailorsDeskDisplayActivity.class);
-                intent.putExtra("displayText", myData);
-                Bundle extras = new Bundle();
-                extras.putString("status", "VIEW!");
-                extras.putString("imageURL", imageVal.getText().toString());
-                intent.putExtras(extras);
-                startActivity(intent);
                 break;
             case R.id.buttonLoadPicture:
                      Intent i = new Intent(
@@ -239,6 +303,10 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
                 setCurrentDateOnView();
                 break;
 
+            case R.id.listFiles:
+                Intent intent = new Intent(getApplicationContext(), TailorsDeskListActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -252,19 +320,19 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
         if(v == customerNameVal) {
             customerNameVal.setText("");
         }
-        if(v == phoneNumberVal) {
+        if (v == phoneNumberVal) {
             phoneNumberVal.setText("");
         }
-        if(v == itemCountVal) {
+        if (v == itemCountVal) {
             itemCountVal.setText("");
         }
-        if(v == commentsVal) {
+        if (v == commentsVal) {
             commentsVal.setText("");
         }
-        if(v == lengthVal) {
+        if (v == lengthVal) {
             lengthVal.setText("");
         }
-        if(v == shoulderVal) {
+        if (v == shoulderVal) {
             shoulderVal.setText("");
         }
     }
@@ -275,7 +343,7 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
             Cursor cursor = getContentResolver().query(selectedImage,
                     filePathColumn, null, null, null);
@@ -286,8 +354,9 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
             cursor.close();
 
             ImageView imageView = (ImageView) findViewById(R.id.imgView);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-
+            imageView.setImageBitmap(loadImage(picturePath));
+            imageView.invalidate();
+            imageView.setVisibility(View.VISIBLE);
             imageVal.setText(picturePath);
 
         }
@@ -314,20 +383,6 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static boolean deleteDir(File dir)
-    {
-        if (dir != null && dir.isDirectory()) {
-        String[] children = dir.list();
-        for (int i = 0; i < children.length; i++) {
-            boolean success = deleteDir(new File(dir, children[i]));
-            if (!success) {
-                return false;
-            }
-        }
-    }
-        return dir.delete();
     }
 
     private void onFocusEvent(View v, boolean gainFocus){
@@ -420,43 +475,18 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
         return null;
     }
 
-    private DatePickerDialog.OnDateSetListener datePickerListener
-            = new DatePickerDialog.OnDateSetListener() {
-
-        public void onDateSet(DatePicker view, int selectedYear,
-                              int selectedMonth, int selectedDay) {
-            year = selectedYear;
-            month = selectedMonth;
-            day = selectedDay;
-
-                    tvDisplayDate.setText(new StringBuilder().append(month + 1)
-                            .append("-").append(day).append("-").append(year)
-                            .append(" "));
-
-                    dpResult.init(year, month, day, null);
-
-                    dpResult.setVisibility(View.GONE);
-
+    private Bitmap loadImage(String imgPath) {
+        BitmapFactory.Options options;
+        try {
+            options = new BitmapFactory.Options();
+            options.inSampleSize = 4;
+            Bitmap bitmap = BitmapFactory.decodeFile(imgPath, options);
+            return bitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    };
+        return null;
+    }
 
-    private DatePickerDialog.OnDateSetListener deliveryDatePickerListener
-            = new DatePickerDialog.OnDateSetListener() {
 
-        public void onDateSet(DatePicker view, int selectedYear,
-                              int selectedMonth, int selectedDay) {
-            year = selectedYear;
-            month = selectedMonth;
-            day = selectedDay;
-
-            tvDisplayDeliveryDate.setText(new StringBuilder().append(month + 1)
-                    .append("-").append(day).append("-").append(year)
-                    .append(" "));
-
-            dpDeliveryResult.init(year, month, day, null);
-
-            dpDeliveryResult.setVisibility(View.GONE);
-
-        }
-    };
 }

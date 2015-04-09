@@ -313,6 +313,11 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"/>
 
+            <Button android:id="@+id/listFiles"
+                    android:text="List" style="@style/CustomButtonStyle" android:layout_gravity="top"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"/>
+
             <EditText
                     android:id="@+id/saveDataVal"
                     android:visibility="gone"

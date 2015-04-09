@@ -2,10 +2,15 @@ package com.smallbusiness.TailorsDesk;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.*;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.StringTokenizer;
 
@@ -24,7 +29,6 @@ public class TailorsDeskDisplayActivity extends Activity{
 
         String message = intent.getStringExtra("displayText");
 
-        System.out.println("MESSAGE 2::::"+message);
         StringTokenizer stAllAttributes = new StringTokenizer(message, ",");
 
         LinearLayout ll = (LinearLayout) findViewById(R.id.info);
@@ -48,7 +52,22 @@ public class TailorsDeskDisplayActivity extends Activity{
 
         String picturePath = bundle.getString("imageURL");
         ImageView imageView = (ImageView) findViewById(R.id.imgView);
-        imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+        imageView.setImageBitmap(loadImage(picturePath));
+        imageView.invalidate();
+        imageView.setVisibility(View.VISIBLE);
+    }
+
+    private Bitmap loadImage(String imgPath) {
+        BitmapFactory.Options options;
+        try {
+            options = new BitmapFactory.Options();
+            options.inSampleSize = 4;
+            Bitmap bitmap = BitmapFactory.decodeFile(imgPath, options);
+            return bitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
