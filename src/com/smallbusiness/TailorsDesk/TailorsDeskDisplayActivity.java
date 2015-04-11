@@ -19,10 +19,10 @@ import java.util.StringTokenizer;
  */
 public class TailorsDeskDisplayActivity extends Activity{
 
-    String phoneNo;
-    Button buttonSend;
-    Button builtInSmsButton;
-    String smsText;
+    private String phoneNo;
+    private Button buttonSend;
+    private Button builtInSmsButton;
+    private String smsText;
 
     public void onCreate(Bundle savedInstanceState) {
 

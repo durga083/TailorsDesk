@@ -27,21 +27,21 @@ import java.util.Calendar;
  */
 public class TailorsDeskActivity extends Activity implements OnItemSelectedListener, OnClickListener {
 
-    static final int DATE_DIALOG_ID = 999;
-    static final int DELIVERY_DATE_DIALOG_ID = 99;
+    private static final int DATE_DIALOG_ID = 999;
+    private static final int DELIVERY_DATE_DIALOG_ID = 99;
     private static int RESULT_LOAD_IMAGE = 1;
-        Spinner stitchStyleSpinner;
-        EditText customerNameVal;
-        EditText phoneNumberVal;
-        EditText saveDataVal;
-    TextView stitchStyleVal;
-    TextView responseTextVal;
-    EditText itemCountVal;
-    EditText commentsVal;
-    EditText lengthVal;
-    EditText shoulderVal;
-    EditText imageVal;
-    File internalFile = null;
+    private Spinner stitchStyleSpinner;
+    private EditText customerNameVal;
+    private EditText phoneNumberVal;
+    private EditText saveDataVal;
+    private TextView stitchStyleVal;
+    private TextView responseTextVal;
+    private EditText itemCountVal;
+    private EditText commentsVal;
+    private EditText lengthVal;
+    private EditText shoulderVal;
+    private EditText imageVal;
+    private File internalFile = null;
     private String[] stitchStyles = {"Salwar", "Kurta", "Gown"};
     private TextView tvDisplayDate;
     private DatePicker dpResult;
