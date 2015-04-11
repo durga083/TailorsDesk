@@ -91,7 +91,7 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
         }
     };
 
-    public static boolean deleteDir(File dir) {
+    private static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
             for (int i = 0; i < children.length; i++) {
@@ -112,6 +112,7 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
         setCurrentDateOnView();
         addListenerOnButton();
 
+        //get all fields
         customerNameVal = (EditText) findViewById(R.id.customerNameVal);
         phoneNumberVal = (EditText) findViewById(R.id.phoneNumberVal);
         stitchStyleVal = (TextView) findViewById(R.id.stitchStyleVal);
@@ -124,7 +125,9 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
         shoulderVal = (EditText) findViewById(R.id.shoulderVal);
         imageVal = (EditText) findViewById(R.id.imageVal);
 
-        View.OnClickListener editTextValListener = new View.OnClickListener()  {
+
+        //add listeners
+        View.OnClickListener editTextValListener = new View.OnClickListener() {
             public void onClick(View v) {
                 TapEditText(v);
             }
@@ -139,7 +142,7 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
 
         View.OnFocusChangeListener editTextValFocusListener = new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean gainFocus) {
-            onFocusEvent(v, gainFocus);
+                onFocusEvent(v, gainFocus);
             }
         };
 
@@ -170,8 +173,12 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         stitchStyleSpinner.setAdapter(adapter_state);
         stitchStyleSpinner.setOnItemSelectedListener(this);
+
     }
 
+    /*
+    *Spinner action
+     */
     public void onItemSelected(AdapterView<?> parent, View view, int position,
                                long id) {
         stitchStyleSpinner.setSelection(position);
@@ -179,11 +186,14 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
         stitchStyleVal.setText(stitchType);
     }
 
+    /*
+    *This method gets the current file list from Context and arranges
+    * the file name
+     */
     private String getFileName(){
         String filename = "";
         if (customerNameVal.getText() != null) {
             String str = customerNameVal.getText().toString();
-            System.out.println("str:::" + str);
             int i = 0;
             if (fileList() != null) {
                 i = fileList().length;
@@ -195,34 +205,40 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
         return filename;
     }
 
+    /*
+    * All actions related to onClick on the View is handled in this method
+    *
+     */
     public void onClick(View v) {
-
-        String myData = "";
 
         EditText customerNameVal = (EditText) findViewById(R.id.customerNameVal);
         EditText phoneNumberVal = (EditText) findViewById(R.id.phoneNumberVal);
-        tvDisplayDate = (TextView) findViewById(R.id.tvDate);
-        TextView tvDeliveryDate = (TextView) findViewById(R.id.tvDeliveryDate);
-
-        saveDataVal.setText("Customer Name : " + customerNameVal.getText().toString()+",Phone Number : "+phoneNumberVal.getText().toString()
-                +",Stitch Style : "+stitchStyleVal.getText().toString()
-                        +",Received Date : "+tvDisplayDate.getText().toString()
-                       +",Item Count : "+itemCountVal.getText().toString()
-                        +",Length : "+lengthVal.getText().toString()
-                        +",Shoulder : "+shoulderVal.getText().toString()
-                        +",Delivery Date : "+tvDeliveryDate.getText().toString()
-                        +",Comments : "+commentsVal.getText().toString()
-
-
-        );
 
         switch (v.getId()) {
             case R.id.saveInternalStorage:
+                tvDisplayDate = (TextView) findViewById(R.id.tvDate);
+                TextView tvDeliveryDate = (TextView) findViewById(R.id.tvDeliveryDate);
+
+                StringBuilder sbSaveData = new StringBuilder();
+                sbSaveData.append("Customer Name:" + customerNameVal.getText().toString());
+                sbSaveData.append(",Phone Number:" + phoneNumberVal.getText().toString());
+                sbSaveData.append(",Stitch Style:" + stitchStyleVal.getText().toString());
+                sbSaveData.append(",Received Date:" + tvDisplayDate.getText().toString());
+                sbSaveData.append(",Item Count:" + itemCountVal.getText().toString());
+                sbSaveData.append(",Length:" + lengthVal.getText().toString());
+                sbSaveData.append(",Shoulder:" + shoulderVal.getText().toString());
+                sbSaveData.append(",Delivery Date:" + tvDeliveryDate.getText().toString());
+                sbSaveData.append(",Comments:" + commentsVal.getText().toString());
+
+                saveDataVal.setText(sbSaveData.toString());
 
                 String str = customerNameVal.getText().toString();
+                String phoneNumber = phoneNumberVal.getText().toString();
 
                 if (str.equalsIgnoreCase("")) {
-                    customerNameVal.setError("please enter username");
+                    customerNameVal.setError("please enter Customer name");
+                } else if (phoneNumber.equalsIgnoreCase("")) {
+                    phoneNumberVal.setError("please enter Phone number");
                 } else {
                     internalFile = new File(getFilesDir(), getFileName());
                     try {
@@ -248,7 +264,7 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
                 break;
 
             case R.id.getInternalStorage:
-                System.out.println("getFileName:::" + getFileName());
+                String myData = "";
                 if (internalFile != null) {
                     try {
                         FileInputStream fis = new FileInputStream(internalFile);
@@ -310,12 +326,9 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
         }
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> arg0) {
-        // TODO Auto-generated method stub
-
-    }
-
+    /*
+    *This method is used to clear the fields when clicked
+     */
     private void TapEditText(View v){
         if(v == customerNameVal) {
             customerNameVal.setText("");
@@ -337,6 +350,9 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
         }
     }
 
+    /*
+    *This method handles loading the image logic
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -364,6 +380,10 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
 
     }
 
+    /*
+    *This method is used to clear the cache
+    * when user comes out of the application.
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -374,7 +394,7 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
         }
     }
 
-    public void trimCache() {
+    private void trimCache() {
         try {
             File dir = getCacheDir();
             if (dir != null && dir.isDirectory()) {
@@ -396,7 +416,10 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
         }
     }
 
-    public void setCurrentDateOnView() {
+    /*
+    *This method is to handle display Date popup logic.
+     */
+    private void setCurrentDateOnView() {
 
         tvDisplayDate = (TextView) findViewById(R.id.tvDate);
         dpResult = (DatePicker) findViewById(R.id.dpResult);
@@ -423,7 +446,7 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
 
     }
 
-    public void addListenerOnButton() {
+    private void addListenerOnButton() {
 
         btnChangeDate = (Button) findViewById(R.id.btnChangeDate);
 
@@ -486,6 +509,12 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> arg0) {
+        // TODO Auto-generated method stub
+
     }
 
 

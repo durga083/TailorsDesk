@@ -42,6 +42,22 @@
 
     </TableRow>
 
+    <TableRow android:background="#6A5ACD"
+              android:layout_height="wrap_content"
+              android:layout_width="fill_parent"
+              android:gravity="center_horizontal">
+
+        <Button android:id="@+id/sendSMSButton"
+                android:text="Send SMS" style="@style/CustomButtonStyle" android:layout_gravity="top"
+                android:layout_weight="1"
+                android:layout_width="0dp"/>
+
+        <Button android:id="@+id/sendBuildInSMSButton"
+                android:text="Edit SMS" style="@style/CustomButtonStyle" android:layout_gravity="top"
+                android:layout_weight="1"
+                android:layout_width="0dp"/>
+    </TableRow>
+
 </LinearLayout>
 </ScrollView>
 
