@@ -18,7 +18,7 @@
         >
 
     <TextView
-            android:layout_width="match_parent"
+            android:layout_width="match_parent" android:id="@+id/detailsViewName"
             android:layout_height="wrap_content"
             android:text="DETAILS VIEW" android:textAlignment="center" style="@style/CustomSubHeadingTextViewStyle"
             android:layout_span="1" android:gravity="center" android:layout_gravity="left"/>
