@@ -27,7 +27,7 @@ public class TailorsDeskDisplayActivity extends Activity{
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.displaymain);
+        setContentView(R.layout.tddisplaymain);
 
         Intent intent = getIntent();
 

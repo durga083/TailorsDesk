@@ -38,7 +38,8 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
     private TextView responseTextVal;
     private EditText itemCountVal;
     private EditText commentsVal;
-    private EditText lengthVal;
+    private EditText lengthCmsVal;
+    private EditText lengthMeterVal;
     private EditText shoulderVal;
     private EditText imageVal;
     private File internalFile = null;
@@ -107,7 +108,7 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.tdmain);
 
         setCurrentDateOnView();
         addListenerOnButton();
@@ -121,7 +122,9 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
 
         itemCountVal = (EditText) findViewById(R.id.itemCountVal);
         commentsVal = (EditText) findViewById(R.id.commentsVal);
-        lengthVal = (EditText) findViewById(R.id.lengthVal);
+        lengthCmsVal = (EditText) findViewById(R.id.lengthCmsVal);
+        lengthCmsVal = (EditText) findViewById(R.id.lengthCmsVal);
+        lengthMeterVal = (EditText) findViewById(R.id.lengthMeterVal);
         shoulderVal = (EditText) findViewById(R.id.shoulderVal);
         imageVal = (EditText) findViewById(R.id.imageVal);
 
@@ -150,7 +153,8 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
         phoneNumberVal.setOnFocusChangeListener(editTextValFocusListener);
         itemCountVal.setOnFocusChangeListener(editTextValFocusListener);
         commentsVal.setOnFocusChangeListener(editTextValFocusListener);
-        lengthVal.setOnFocusChangeListener(editTextValFocusListener);
+        lengthCmsVal.setOnFocusChangeListener(editTextValFocusListener);
+        lengthMeterVal.setOnFocusChangeListener(editTextValFocusListener);
         shoulderVal.setOnFocusChangeListener(editTextValFocusListener);
 
         Button saveToInternalStorage =
@@ -225,7 +229,7 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
                 sbSaveData.append(",Stitch Style:" + stitchStyleVal.getText().toString());
                 sbSaveData.append(",Received Date:" + tvDisplayDate.getText().toString());
                 sbSaveData.append(",Item Count:" + itemCountVal.getText().toString());
-                sbSaveData.append(",Length:" + lengthVal.getText().toString());
+                sbSaveData.append(",Length:" + lengthCmsVal.getText().toString() + "cms_" + lengthMeterVal.getText().toString() + "meter");
                 sbSaveData.append(",Shoulder:" + shoulderVal.getText().toString());
                 sbSaveData.append(",Delivery Date:" + tvDeliveryDate.getText().toString());
                 sbSaveData.append(",Comments:" + commentsVal.getText().toString());
@@ -309,7 +313,8 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
                 phoneNumberVal.setText("");
                 itemCountVal.setText("");
                 commentsVal.setText("");
-                lengthVal.setText("");
+                lengthCmsVal.setText("");
+                lengthMeterVal.setText("");
                 shoulderVal.setText("");
                 stitchStyleSpinner.setSelection(0);
                 ImageView imageView = (ImageView) findViewById(R.id.imgView);
@@ -342,8 +347,11 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
         if (v == commentsVal) {
             commentsVal.setText("");
         }
-        if (v == lengthVal) {
-            lengthVal.setText("");
+        if (v == lengthCmsVal) {
+            lengthCmsVal.setText("");
+        }
+        if (v == lengthMeterVal) {
+            lengthMeterVal.setText("");
         }
         if (v == shoulderVal) {
             shoulderVal.setText("");

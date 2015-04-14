@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:id="@+id/listInfo" android:background="#6A5ACD"
+        >
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="WELCOME" android:textAlignment="center" style="@style/CustomSubHeadingTextViewStyle"
+            android:layout_span="1" android:gravity="center" android:layout_gravity="left"/>
+    <View
+            android:layout_width="fill_parent"
+            android:layout_height="50dp">
+    </View>
+
+    <TableRow android:background="#6A5ACD"
+              android:layout_height="wrap_content"
+              android:layout_width="fill_parent"
+              android:gravity="center_horizontal">
+
+
+        <Button android:id="@+id/tdLogin"
+                android:text="@string/tailorsDeskLogin" style="@style/CustomButtonStyle" android:layout_gravity="top"
+                android:layout_weight="1"
+                android:layout_width="0dp"/>
+
+        <Button android:id="@+id/mtLogin"
+                android:text="@string/myTailorLogin" style="@style/CustomButtonStyle" android:layout_gravity="top"
+                android:layout_weight="1"
+                android:layout_width="0dp"/>
+
+
+    </TableRow>
+
+
+</LinearLayout>
+

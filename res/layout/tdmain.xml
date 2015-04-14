@@ -237,10 +237,29 @@
         android:layout_width="0dp" android:layout_weight="1" style="@style/CustomTextViewStyle"/>
 
         <EditText
-        android:id="@+id/lengthVal"
+                android:id="@+id/lengthCmsVal"
         android:text=""
         android:padding="18dip"
-        android:layout_gravity="top" android:inputType="numberDecimal" android:layout_weight="1" android:layout_width="0dp"  style="@style/CustomEditTextStyle"/>
+                android:layout_gravity="top" android:inputType="number" android:layout_weight="1"
+                android:layout_width="0dp" style="@style/CustomEditTextStyle"/>
+
+            <TextView
+                    android:id="@+id/lengthCms"
+                    android:text="CMS"
+                    android:layout_width="0dp" android:layout_weight="1" style="@style/CustomTextViewStyle"/>
+
+            <EditText
+                    android:id="@+id/lengthMeterVal"
+                    android:text=""
+                    android:padding="18dip"
+                    android:layout_gravity="top" android:inputType="number" android:layout_weight="1"
+                    android:layout_width="0dp" style="@style/CustomEditTextStyle"/>
+
+            <TextView
+                    android:id="@+id/meters"
+                    android:text="Meters"
+                    android:layout_width="0dp" android:layout_weight="1" style="@style/CustomTextViewStyle"/>
+
         </TableRow>
 
         <TableRow
@@ -257,7 +276,13 @@
         android:id="@+id/shoulderVal"
         android:text=""
         android:padding="18dip"
-        android:layout_gravity="top" android:inputType="numberDecimal" android:layout_weight="1" android:layout_width="0dp"  style="@style/CustomEditTextStyle"/>
+        android:layout_gravity="top" android:inputType="number" android:layout_weight="1" android:layout_width="0dp"
+        style="@style/CustomEditTextStyle"/>
+
+            <TextView
+                    android:id="@+id/shoulderCms"
+                    android:text="CMS"
+                    android:layout_width="0dp" android:layout_weight="1" style="@style/CustomTextViewStyle"/>
         </TableRow>
 
         <TableRow

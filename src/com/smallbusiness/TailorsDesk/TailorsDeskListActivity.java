@@ -41,7 +41,7 @@ public class TailorsDeskListActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.listmain);
+        setContentView(R.layout.tdlistmain);
         showSavedFiles();
     }
 

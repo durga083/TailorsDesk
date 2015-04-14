@@ -9,7 +9,7 @@
             android:maxSdkVersion="18"/>
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <application android:label="@string/app_name" android:icon="@drawable/tdlogo">
-        <activity android:name="com.smallbusiness.TailorsDesk.TailorsDeskActivity"
+        <activity android:name="com.smallbusiness.TailorsDesk.LoginActivity"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -18,11 +18,19 @@
         </activity>
         <activity
                 android:label="@string/app_name"
+                android:name="com.smallbusiness.TailorsDesk.TailorsDeskActivity">
+        </activity>
+        <activity
+                android:label="@string/app_name"
                 android:name="com.smallbusiness.TailorsDesk.TailorsDeskDisplayActivity" >
         </activity>
         <activity
                 android:label="@string/app_name"
                 android:name="com.smallbusiness.TailorsDesk.TailorsDeskListActivity">
+        </activity>
+        <activity
+                android:label="@string/app_name"
+                android:name="com.smallbusiness.TailorsDesk.TDTailorActivity">
         </activity>
     </application>
 </manifest>
