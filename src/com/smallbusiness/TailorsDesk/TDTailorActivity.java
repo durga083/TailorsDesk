@@ -45,7 +45,7 @@ public class TDTailorActivity extends Activity implements
         curRate = Float.valueOf(decimalFormat.format((curRate * count + rating)
                 / ++count));
         Toast.makeText(TDTailorActivity.this,
-                "New Rating: " + curRate, Toast.LENGTH_SHORT).show();
+                "Overall Rating: " + curRate, Toast.LENGTH_SHORT).show();
         setRatingBar.setRating(curRate);
         countText.setText(count + " Ratings");
     }

@@ -229,7 +229,7 @@ public class TailorsDeskActivity extends Activity implements OnItemSelectedListe
                 sbSaveData.append(",Stitch Style:" + stitchStyleVal.getText().toString());
                 sbSaveData.append(",Received Date:" + tvDisplayDate.getText().toString());
                 sbSaveData.append(",Item Count:" + itemCountVal.getText().toString());
-                sbSaveData.append(",Length:" + lengthCmsVal.getText().toString() + "cms_" + lengthMeterVal.getText().toString() + "meter");
+                sbSaveData.append(",Length:" + lengthCmsVal.getText().toString() + "cms" + lengthMeterVal.getText().toString() + "meter");
                 sbSaveData.append(",Shoulder:" + shoulderVal.getText().toString());
                 sbSaveData.append(",Delivery Date:" + tvDeliveryDate.getText().toString());
                 sbSaveData.append(",Comments:" + commentsVal.getText().toString());

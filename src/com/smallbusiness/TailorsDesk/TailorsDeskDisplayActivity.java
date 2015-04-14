@@ -10,6 +10,7 @@ import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.*;
 
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 /*
@@ -101,8 +102,11 @@ public class TailorsDeskDisplayActivity extends Activity{
             @Override
             public void onClick(View v) {
                 try {
-                    SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage(phoneNo, null, smsText, null, null);
+
+                    SmsManager sms = SmsManager.getDefault();
+                    ArrayList<String> parts = sms.divideMessage(smsText);
+                    sms.sendMultipartTextMessage(phoneNo, null, parts, null, null);
+
                     Toast.makeText(getApplicationContext(), "SMS Sent!", Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "SMS failed, please try again later!", Toast.LENGTH_LONG).show();
